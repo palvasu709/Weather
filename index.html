@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wheather App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <div class="card">
+        <div class="input">
+            <input type="text" placeholder="Enter your City Name" id="input">
+            <span class="btn"><i class=" search fa-solid fa-magnifying-glass"></i></span>
+        </div>
+        <div class="wheather">
+         <img class="img" src="images/clear.png" alt="">
+
+         <h1 class="temp">17°C</h1>
+         <h2 class="city">Haryana</h2>
+
+         <div class="footer flex">
+               <div class="humidity">
+                <i class="fa-solid fa-wind humidity"> &#160; &#160;</i><p>53% </p>
+                <h2 >Humidity</h2>
+               </div>
+         
+               <div class="wind">
+                <i class="fa-sharp fa-solid fa-fan speed"> &#160; &#160;</i><p>5.6 km/h </p>
+                <h2>Wind Speed</h2>
+               </div>
+         
+                   
+         </div>
+        </div>
+
+    </div>
+
+  <script>
+
+    apiKey = "cf42e1f1b3edb5de41ec87e48194205e";
+    apiUrl = "https://api.openweathermap.org/data/2.5/weather?q="
+
+        const input = document.querySelector("#input")
+        const searchBtn = document.querySelector(".btn")
+        const wheatherImg = document.querySelector(".img")
+
+    async function getWheather(city){   
+        const response = await fetch(apiUrl + city +`&appid=${apiKey}`);
+        var data = await response.json();
+        console.log(data)
+        console.log(data.weather[0].main)
+        document.querySelector(".temp").innerHTML = data.main.temp + "°C"; 
+        document.querySelector(".city").innerHTML = data.name; 
+        document.querySelector(".humidity p").innerHTML = data.main.humidity +"%"; 
+        document.querySelector(".wind p").innerHTML = data.wind.speed +" km/h"; 
+
+     if (data.weather[0].main == 'Clouds') {
+         wheatherImg.src = "images/clouds.png";
+     }else if(data.weather[0].main == 'Clear'){
+        wheatherImg.src = "images/clear.png";
+     }else if(data.weather[0].main =='Humidity'){
+        wheatherImg.src = "images/humidity.png";
+     }else if(data.weather[0].main == 'Rain'){
+        wheatherImg.src = "images/rain.png";
+     }else{
+        console.log("not valid")
+     }
+
+    }
+    searchBtn.addEventListener("click",() =>{
+      
+      getWheather(input.value);
+
+    })
+        
+
+
+    
+
+      
+    
+  </script>
+</body>
+</html>
